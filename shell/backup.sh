@@ -22,7 +22,7 @@ tar -z -c -f "$Archive" \
     /var/log/auth.log \
     /usr/local \
     /storage/htdocs \
-	/storage/salt \
+    /storage/salt \
     /etc/libvirt/qemu/ \
     /storage/srv/ \
 
