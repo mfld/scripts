@@ -29,24 +29,18 @@ $ipt -t security -F
 $ipt -t security -X
 $ipt -X
 
-# default policy
+# Default policy
 $ipt --policy INPUT DROP
 $ipt --policy OUTPUT DROP
 $ipt --policy FORWARD DROP
 
-# Logging
-#$ipt --new logdrop
-#$ipt -A logdrop -m limit --limit 5/m --limit-burst 10 -j LOG --log-prefix "iptables deny: "
-#$ipt -A logdrop -j DROP
-
 ## Inbound
-#$ipt -A INPUT -j LOG
 $ipt -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
 $ipt -A INPUT -i lo -s $UNIVERSE -d $UNIVERSE -j ACCEPT
 $ipt -A INPUT -s $DMZ -p udp -m multiport --dports 25,53,123 -j ACCEPT -m comment --comment "ALLOW 25,53,123 to DMZ"
 $ipt -A INPUT -i $INTIF -s $INTNET -j ACCEPT
 
-## outbound
+## Outbound
 #$ipt -A OUTPUT -j LOG
 $ipt -A OUTPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
 $ipt -A OUTPUT -o lo -s $UNIVERSE -d $UNIVERSE -j ACCEPT
@@ -55,16 +49,13 @@ $ipt -A OUTPUT -o $EXTIF -p tcp -m multiport --dports 20,21,80,443 -j ACCEPT -m 
 $ipt -A OUTPUT -o $INTIF -s $INTNET -j ACCEPT
 $ipt -A OUTPUT -o $EXTIF -p icmp --icmp-type echo-request -j ACCEPT
 
-## forward
-#$ipt -A FORWARD -j LOG
+## Forward
 $ipt -A FORWARD -m state --state ESTABLISHED,RELATED -j ACCEPT
 $ipt -A FORWARD -s $UNIVERSE -d $UNIVERSE -m state --state INVALID -j DROP
-#$ipt -A FORWARD -i $EXTIF -s $INTNET,$DMZ -j logdrop
 $ipt -A FORWARD -i $EXTIF -s $work -p tcp --dport 22 -m limit --limit 3/m -j ACCEPT
 $ipt -A FORWARD -i $EXTIF -p tcp -m multiport --dports https -j ACCEPT
 $ipt -A FORWARD -o $EXTIF -p tcp -m multiport --dports 20,21,22,80,443,587,9418,5223,22222:22223,27000:27050,49164 -s $INTNET -j ACCEPT
 $ipt -A FORWARD -o $EXTIF -p udp -m multiport --dports 20,21,22,80,443,587,9418,5223,22222:22223,27000:27050,49164 -s $INTNET -j ACCEPT
-#$ipt -A FORWARD -j ACCEPT
 
 ## NAT
 $ipt -t nat -A PREROUTING -i $INTIF -p udp --dport 123 -j DNAT --to-destination 127.0.0.1:123 -m comment --comment "redirect ntp to FW"
