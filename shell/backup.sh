@@ -13,7 +13,7 @@ chmod 600 "$Archive"
 tar -z -c -f "$Archive" \
     /etc/passwd \
     /etc/fstab \
-	/etc/salt \
+    /etc/salt \
     /etc/sysctl.conf \
     /etc/network/interfaces \
     /etc/ssh/sshd_config \
