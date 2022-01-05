@@ -1,4 +1,4 @@
-#!/bin/dash
+#!/bin/bash
 
 pattern=$1
 shift

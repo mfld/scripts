@@ -1,8 +1,6 @@
-#!/bin/dash
-# author: Mikael Flood (thernx@gmail.com)
-# Pablo Roberto push-up super set script.
+#!/bin/bash
+# push-up super-set script.
 # each push-up should last for 2 seconds.
-
 
 TIER=1 #interval
 REP=1 #push-up

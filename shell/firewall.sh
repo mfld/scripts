@@ -1,4 +1,4 @@
-#!/bin/dash
+#!/bin/bash
 # author:  Mikael Flood <thernx@gamil.com>
 # relies on iptables.
 # single Linux box firwall script.
